@@ -1,66 +1,78 @@
-# Auto-Scaling-in-Web-Application-in-Cloud
+# Auto-Scaling in Web Applications in Cloud
 
-A local auto-scaling system for Flask applications that dynamically manages instances based on CPU usage thresholds, complete with monitoring dashboard, load generation, and visualization for educational purposes.
+This project implements a basic auto-scaling system for web applications, mirroring cloud services like AWS Auto Scaling or Alibaba Cloud by adjusting Flask instance counts based on CPU load to handle varying traffic efficiently.  Designed for local development on constrained hardware, it provides hands-on learning for scaling concepts before cloud deployment, including a dashboard for real-time metrics and a load simulator for testing.
 
 ## Features
-- **Dynamic Scaling**: Automatically starts or stops Flask instances (up to 5) when CPU exceeds 35% (scale up) or drops below 15% (scale down).
-- **Real-Time Monitoring**: Terminal dashboard displays CPU usage, active instances, and requests per minute (RPM); live Matplotlib graph tracks metrics over time.
-- **Load Simulation**: Multi-threaded request generator to test scaling under configurable traffic loads.
-- **Instance Management**: Subprocess handling for Flask apps with PID and port tracking.
-- **Basic Load Balancing Stub**: Flask-based balancer (extendable for round-robin distribution).
+- **Dynamic Instance Scaling**: Monitors system CPU and scales Flask instances from 1 to 5 when usage exceeds 35% (upscale) or falls below 15% (downscale), emulating cloud horizontal scaling.
+- **Monitoring Dashboard**: Real-time terminal display of CPU, active instances, ports/PIDs, and requests per minute (RPM) calculated from app endpoints.
+- **Live Visualization**: Matplotlib graph animates CPU usage and instance count over time for performance analysis.
+- **Load Generation**: Configurable multi-threaded HTTP request sender to simulate traffic bursts, targeting the app or balancer.
+- **Process Management**: Handles subprocesses for Flask instances with easy start/stop and listing via an AppManager class.
+- **Load Balancer Stub**: Basic Flask entry point on port 8000, ready for extension to round-robin or least-connections routing across instances.
+
+## Benefits in Cloud Context
+Auto-scaling ensures cost savings by provisioning resources only as needed, improves availability during peaks, and maintains low latency for users, directly applicable to deploying this prototype on EC2 Auto Scaling Groups with Elastic Load Balancing.
 
 ## Installation
-Clone the repository and install dependencies via pip.
+Clone the repo and set up the Python environment with the listed dependencies.
 
 ```bash
-git clone https://github.com/kashbix/Auto-Scaling-in-Web-Application-in-Cloud
-cd flask-auto-scaler
+git clone https://github.com/kashbix/Auto-Scaling-in-Web-Application-in-Cloud.git
+cd Auto-Scaling-in-Web-Application-in-Cloud
 pip install -r requirements.txt
 ```
 
-Requirements include Flask for the web app, psutil for CPU monitoring, requests for HTTP calls, and matplotlib for graphing.[15]
+Key dependencies: Flask (web framework), psutil (system metrics), requests (HTTP client), matplotlib (plotting).
 
-## Usage
-Run the scaler to start the system with one initial instance on port 5000; it will auto-scale as needed.[16][11]
+## Quick Start
+Launch the scaler to initialize one Flask instance on port 5000 and begin auto-scaling monitoring.
 
 ```bash
 python scaler.py
 ```
 
-- **View Dashboard**: Terminal refreshes every 3 seconds showing instances like `http://127.0.0.1:5000` and metrics.
-- **Generate Load**: In a new terminal, simulate traffic targeting the balancer or app.
+- The terminal dashboard will refresh every 3 seconds, showing active instances (e.g., `🟢 http://127.0.0.1:5000 (PID: 1234)`).
+- A graph window opens for live CPU and instance tracking; close with Ctrl+C to stop.
+
+Test scaling by generating load in a separate terminal.[16]
 
 ```bash
-python load_generator.py --threads 20 --url http://127.0.0.1:8000/ --duration 120
+python load_generator.py --threads 20 --url http://127.0.0.1:5000/ --duration 300
 ```
 
-- **Run Balancer**: Start separately if needed (currently static; extend for distribution).
+For the load balancer (extend for full functionality):
 
 ```bash
 python load_balancer.py --port 8000
 ```
 
-- **Custom App Instance**: Launch standalone Flask apps on specific ports.
+Target it with load: `python load_generator.py --url http://127.0.0.1:8000/`.
+
+Standalone app instance:
 
 ```bash
 python app.py --port 5001
 ```
 
-The graph window will open for live visualization; use Ctrl+C to stop.
+Each app handles requests with simulated CPU load and exposes `/requests` for count querying.
 
 ## Project Structure
-- `app.py`: Core Flask application with CPU-intensive endpoint and request counter
-- `scaler.py`: Main autoscaler with monitoring and graphing logic.
-- `load_generator.py`: Tool for simulating concurrent requests.
-- `load_balancer.py`: Basic entry point (TODO: implement routing).
-- `process_manager.py`: Manages subprocess instances.
-- `requirements.txt`: Dependencies list.
+```
+.
+├── app.py                 # Core Flask app with CPU simulation and metrics
+├── scaler.py              # Auto-scaler, dashboard, and graphing logic
+├── load_generator.py      # Traffic simulation tool
+├── load_balancer.py       # Basic balancer (TODO: implement distribution)
+├── process_manager.py     # Instance lifecycle management
+├── requirements.txt       # Python dependencies
+└── README.md              # This file
+```
 
-## Limitations and Improvements
-This is a prototype for local learning; global CPU scaling may not suit all loads—consider per-instance metrics.  Extend the balancer for true distribution and add logging/health checks for robustness.  For production, integrate Gunicorn and Docker; see issues for enhancements.
+## Limitations and Next Steps
+This local setup uses global CPU for scaling, which may not capture app-specific loads—ideal for learning but extend with per-instance metrics for cloud accuracy.  The balancer is a stub; add routing logic for true distribution.  For cloud migration: Containerize with Docker, deploy to Kubernetes/AWS, and use Prometheus for advanced monitoring.  See open issues for enhancements like async tasks or ML-based scaling predictions.
 
 ## Contributing
-Fork the repo, create a branch, make changes, and submit a pull request.  Report bugs or suggest features via issues; all contributions welcome, especially for your interests in cybersecurity and ML integration.
+Contributions welcome! Fork the repo, create a feature branch (`git checkout -b feature/amazing-feature`), commit changes (`git commit -m 'Add amazing feature'`), and open a pull request.  Focus areas: Improve balancer, add tests, or integrate cloud APIs—aligning with interests in cybersecurity and efficient local solutions.
 
 ## License
-MIT License—feel free to use and modify.
+Distributed under the MIT License. See LICENSE for more information.
