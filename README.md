@@ -64,11 +64,3 @@ Fork the repo, create a branch, make changes, and submit a pull request.  Report
 
 ## License
 MIT License—feel free to use and modify.
-
-[10](https://www.reddit.com/r/flask/comments/1ekjvap/i_made_a_quickstart_template_for_flask_apps/)
-[11](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/58283121/80626aa3-fbf1-4593-807f-78a3cbf7f90a/scaler.py)
-[12](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/58283121/8d08231b-61a5-49fc-9d0f-ec32f76fcc36/load_generator.py)
-[13](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/58283121/3716dd8b-1df4-4134-86ec-117b95e96cbe/process_manager.py)
-[14](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/58283121/ee67f335-68d0-4984-9669-99058cfdcda9/load_balancer.py)
-[15](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/58283121/5c96dcef-4cf4-4026-98c1-35632c830d02/requirements.txt)
-[16](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/58283121/a6414c1a-6943-4dc6-8946-759af1ee6989/app.py)
